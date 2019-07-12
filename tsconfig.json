@@ -19,5 +19,14 @@
         "./node_modules",
         "./dist",
         "./test"
-    ]
+    ],
+    "typedocOptions": {
+        "mode": "modules",
+        "out": "docs",
+        "excludePrivate": true,
+        "excludeProtected": true,
+        "excludeNotExported": true,
+        "excludeExternals": true,
+        "toc": true
+    }
 }

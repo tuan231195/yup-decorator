@@ -5,10 +5,13 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
+        "doc": "typedoc --mode modules src",
         "watch": "tsc -w",
         "test:coverage": "nyc mocha",
         "publish:coverage": "codecov",
+        "publish:doc": "codecov",
         "test": "mocha --watch --watch-extensions ts",
+        "deploy": "surge docs $npm_package_config_surgeProject",
         "lint": "tslint -p .",
         "release": "semantic-release"
     },
@@ -43,11 +46,13 @@
         "prettier": "1.18.2",
         "semantic-release": "^15.13.18",
         "source-map-support": "0.5.12",
+        "surge": "0.21.3",
         "ts-node": "8.3.0",
         "tsconfig-paths": "3.8.0",
         "tslint": "5.18.0",
         "tslint-config-prettier": "1.18.0",
         "tslint-plugin-prettier": "2.0.1",
+        "typedoc": "0.14.2",
         "typescript": "3.5.3",
         "yup": "0.27.0"
     },
@@ -64,7 +69,8 @@
         }
     },
     "publishConfig": {
-        "registry": "https://registry.npmjs.org/"
+        "registry": "https://registry.npmjs.org/",
+        "surgeDoc": "luxuriant-sneeze.surge.sh"
     },
     "author": "Tuan Nguyen <vdtn359@gmail.com>",
     "license": "ISC",

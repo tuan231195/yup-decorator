@@ -7,16 +7,31 @@ const metadataStorage = new MetadataStorage();
 const schemas: { [key: string]: ObjectSchema } = {};
 const allSchemas = new Map<Function, ObjectSchema>();
 
+/**
+ * Get the schema by name
+ * @param name Name of the schema
+ * @returns The yup schema
+ */
 export function getNamedSchema(name: string) {
     return schemas[name];
 }
 
+/**
+ * Get the schema by type
+ * @param target the object's type (class)
+ * @returns The yup schema
+ */
 export function getSchemaByType(target: Object) {
     const constructor =
         target instanceof Function ? target : target.constructor;
     return allSchemas.get(constructor);
 }
 
+/**
+ * Register a new named schema
+ * @param name the schema name
+ * @param objectSchema The initial schema
+ */
 export function namedSchema(
     name: string,
     objectSchema: ObjectSchema = yup.object()
@@ -27,6 +42,10 @@ export function namedSchema(
     };
 }
 
+/**
+ * Register a schema
+ * @param objectSchema The initial schema
+ */
 export function schema(
     objectSchema: ObjectSchema = yup.object()
 ): ClassDecorator {
@@ -35,25 +54,11 @@ export function schema(
     };
 }
 
-function defineSchema(target, objectSchema: ObjectSchema) {
-    const schemaMap = metadataStorage.findSchemaMetadata(target);
-
-    if (!schemaMap) {
-        return;
-    }
-    const objectShape = Array.from(schemaMap.entries()).reduce(
-        (currentShape, [property, schema]) => {
-            currentShape[property] = schema;
-            return currentShape;
-        },
-        {}
-    );
-    objectSchema = objectSchema.shape(objectShape);
-    allSchemas.set(target, objectSchema);
-    return objectSchema;
-}
-
-export function is<T>(schema: Schema<T>): PropertyDecorator {
+/**
+ * Register a schema to the given property
+ * @param schema the schema to register
+ */
+export function is(schema: Schema<any>): PropertyDecorator {
     return (target: Object, property: string | symbol) => {
         metadataStorage.addSchemaMetadata({
             target: target instanceof Function ? target : target.constructor,
@@ -63,7 +68,10 @@ export function is<T>(schema: Schema<T>): PropertyDecorator {
     };
 }
 
-export function nested<T>(): PropertyDecorator {
+/**
+ * Register an object schema to the given property
+ */
+export function nested(): PropertyDecorator {
     return (target: Object, property: string | symbol) => {
         const nestedType = (Reflect as any).getMetadata(
             'design:type',
@@ -100,11 +108,25 @@ export interface IValidatePathArguments {
     path: string;
 }
 
+/**
+ * Validate an object asynchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.object the object to validate
+ * @param args.options validate options
+ */
 export function validate({ schemaName, object, options }: IValidateArguments) {
     const objectSchema = getSchema({ object, schemaName });
     return objectSchema.validate(object, options);
 }
 
+/**
+ * Validate an object synchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.object the object to validate
+ * @param args.options validate options
+ */
 export function validateSync({
     schemaName,
     object,
@@ -114,6 +136,14 @@ export function validateSync({
     return objectSchema.validateSync(object, options);
 }
 
+/**
+ * Validate an object's property asynchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.path the property path
+ * @param args.object the object to validate
+ * @param args.options validate options
+ */
 export function validateAt({
     schemaName,
     path,
@@ -124,6 +154,14 @@ export function validateAt({
     return objectSchema.validateAt(path, object, options);
 }
 
+/**
+ * Validate an object's property synchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.path the property path
+ * @param args.object the object to validate
+ * @param args.options validate options
+ */
 export function validateSyncAt({
     schemaName,
     path,
@@ -134,11 +172,27 @@ export function validateSyncAt({
     return objectSchema.validateSyncAt(path, object, options);
 }
 
+/**
+ * Check if an object is valid asynchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.object the object to validate
+ * @param args.options validate options
+ * @returns whether the object is valid
+ */
 export function isValid({ schemaName, object, options }: IValidateArguments) {
     const objectSchema = getSchema({ object, schemaName });
     return objectSchema.isValid(object, options);
 }
 
+/**
+ * Check if an object is valid synchronously
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.object the object to validate
+ * @param args.options validate options
+ * @returns whether the object is valid
+ */
 export function isValidSync({
     schemaName,
     object,
@@ -148,6 +202,14 @@ export function isValidSync({
     return objectSchema.isValidSync(object, options);
 }
 
+/**
+ * Coerce object's property according to the schema
+ * @param args the validate arguments
+ * @param args.schemaName the name of the schema to use
+ * @param args.object the object to validate
+ * @param args.options validate options
+ * @returns the object that has been transformed
+ */
 export function cast({ schemaName, object, options }: IValidateArguments) {
     const objectSchema = getSchema({ object, schemaName });
     return objectSchema.cast(object, options);
@@ -166,3 +228,21 @@ function getSchema({ object, schemaName }) {
 
 export const a = yup;
 export const an = yup;
+
+function defineSchema(target, objectSchema: ObjectSchema) {
+    const schemaMap = metadataStorage.findSchemaMetadata(target);
+
+    if (!schemaMap) {
+        return;
+    }
+    const objectShape = Array.from(schemaMap.entries()).reduce(
+        (currentShape, [property, schema]) => {
+            currentShape[property] = schema;
+            return currentShape;
+        },
+        {}
+    );
+    objectSchema = objectSchema.shape(objectShape);
+    allSchemas.set(target, objectSchema);
+    return objectSchema;
+}

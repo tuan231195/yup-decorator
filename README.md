@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/vdtn359/yup-decorator.svg?branch=master)](https://travis-ci.org/vdtn359/yup-decorator)
 [![codecov](https://codecov.io/gh/vdtn359/yup-decorator/branch/master/graph/badge.svg)](https://codecov.io/gh/vdtn359/yup-decorator)
 
-### Yup Decorators
+## Yup Decorators
 Added TypeScript decorators support for [yup](https://github.com/jquense/yup)
 
 ### Usage
@@ -117,5 +117,9 @@ const result = cast({ object: user });
 result // {email: 'vdtn359@gmail.com', age: 18 }
 ```
 The sync version is `isValidSync`
+
+### API usage
+
+The API documentation is available at http://luxuriant-sneeze.surge.sh/
 
 
