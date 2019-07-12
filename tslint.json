@@ -1,0 +1,30 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-config-prettier"
+    ],
+    "rulesDirectory": ["tslint-plugin-prettier"],
+    "rules": {
+        "prettier": [true, ".prettierrc"],
+        "ordered-imports": false,
+        "max-line-length": [false],
+        "no-string-literal": false,
+        "object-literal-sort-keys": false,
+        "no-empty": false,
+        "only-arrow-functions": false,
+        "no-unused-expression": false,
+        "require-jsdoc": false,
+        "no-trailing-whitespace": false,
+        "member-ordering": false,
+        "arrow-parens": false,
+        "no-console": false,
+        "no-empty-interface": false,
+        "no-var-requires": false,
+        "member-access": false,
+        "variable-name": false,
+        "ban-types": false,
+        "no-shadowed-variable": false,
+        "max-classes-per-file": false
+    }
+}

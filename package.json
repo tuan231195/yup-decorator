@@ -1,0 +1,56 @@
+{
+  "name": "yup-decorator",
+  "version": "1.0.0",
+  "description": "Decorators for yup",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test:coverage": "nyc \"mocha -r ts-node/register -r tsconfig-paths/register test/**/*.ts\"",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register ts test/**/*.ts --watch --watch-extensions ts",
+    "lint": "tslint -p ."
+  },
+  "peerDependencies": {
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "8.0.0",
+    "@commitlint/config-conventional": "8.0.0",
+    "@types/mocha": "5.2.7",
+    "@types/node": "12.6.2",
+    "@types/yup": "0.26.21",
+    "commitizen": "3.1.1",
+    "cz-conventional-changelog": "2.1.0",
+    "husky": "3.0.0",
+    "mocha": "6.1.4",
+    "nyc": "14.1.1",
+    "prettier": "1.18.2",
+    "ts-node": "8.3.0",
+    "tsconfig-paths": "3.8.0",
+    "tslint": "5.18.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.0.1",
+    "typescript": "3.5.3",
+    "yup": "0.27.0"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm run lint && npm test:coverage"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": "Tuan Nguyen <vdtn359@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "reflect-metadata": "0.1.13"
+  }
+}
