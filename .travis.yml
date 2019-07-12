@@ -13,7 +13,8 @@ jobs:
           script:
               - npm run build
               - npm run lint
-              - npm run test
+              - npm run test:coverage
+          after_success: npm run publish:coverage    
         - stage: deploy
           if: (tag =~ ^v) AND (branch = master)
           script: npm run release
