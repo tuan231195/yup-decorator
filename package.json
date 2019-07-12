@@ -1,6 +1,6 @@
 {
     "name": "yup-decorator",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "description": "Decorators for yup",
     "main": "dist/index.js",
     "scripts": {
@@ -12,7 +12,8 @@
         "publish:doc": "surge docs $npm_package_config_surgeDoc",
         "test": "mocha --watch --watch-extensions ts",
         "lint": "tslint -p .",
-        "release": "semantic-release"
+        "release": "semantic-release",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
