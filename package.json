@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test:coverage": "nyc \"mocha -r ts-node/register -r tsconfig-paths/register test/**/*.ts\"",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register ts test/**/*.ts --watch --watch-extensions ts",
+    "test:coverage": "nyc mocha",
+    "test": "mocha --watch --watch-extensions ts",
     "lint": "tslint -p ."
   },
   "peerDependencies": {
@@ -16,15 +16,19 @@
   "devDependencies": {
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
+    "@istanbuljs/nyc-config-typescript": "0.1.3",
+    "@types/chai": "4.1.7",
     "@types/mocha": "5.2.7",
     "@types/node": "12.6.2",
     "@types/yup": "0.26.21",
+    "chai": "4.2.0",
     "commitizen": "3.1.1",
     "cz-conventional-changelog": "2.1.0",
     "husky": "3.0.0",
     "mocha": "6.1.4",
     "nyc": "14.1.1",
     "prettier": "1.18.2",
+    "source-map-support": "0.5.12",
     "ts-node": "8.3.0",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.18.0",

@@ -18,7 +18,6 @@
         "no-trailing-whitespace": false,
         "member-ordering": false,
         "arrow-parens": false,
-        "no-console": false,
         "no-empty-interface": false,
         "no-var-requires": false,
         "member-access": false,

@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { MetadataStorage } from './metadata/metadata-storage';
 const metadataStorage = new MetadataStorage();
 
-const schemas = {};
+const schemas: { [key: string]: ObjectSchema } = {};
 const allSchemas = new Map<Function, ObjectSchema>();
 
 export function getNamedSchema(name: string) {
@@ -24,7 +24,6 @@ export function namedSchema(
     return target => {
         objectSchema = defineSchema(target, objectSchema);
         schemas[name] = objectSchema;
-        allSchemas.set(target, objectSchema);
     };
 }
 
@@ -32,14 +31,16 @@ export function schema(
     objectSchema: ObjectSchema = yup.object()
 ): ClassDecorator {
     return target => {
-        objectSchema = defineSchema(target, objectSchema);
-        allSchemas.set(target, objectSchema);
+        defineSchema(target, objectSchema);
     };
 }
 
 function defineSchema(target, objectSchema: ObjectSchema) {
     const schemaMap = metadataStorage.findSchemaMetadata(target);
 
+    if (!schemaMap) {
+        return;
+    }
     const objectShape = Array.from(schemaMap.entries()).reduce(
         (currentShape, [property, schema]) => {
             currentShape[property] = schema;
@@ -47,7 +48,9 @@ function defineSchema(target, objectSchema: ObjectSchema) {
         },
         {}
     );
-    return objectSchema.shape(objectShape);
+    objectSchema = objectSchema.shape(objectShape);
+    allSchemas.set(target, objectSchema);
+    return objectSchema;
 }
 
 export function is<T>(schema: Schema<T>): PropertyDecorator {
@@ -74,15 +77,7 @@ export function nested<T>(): PropertyDecorator {
                 return;
             }
             // if the schema was not registered via @schema, build one for it automatically
-            registeredSchema = yup.object();
-            const objectShape = Array.from(savedSchema.entries()).reduce(
-                (currentShape, [property, schema]) => {
-                    currentShape[property] = schema;
-                    return currentShape;
-                },
-                {}
-            );
-            registeredSchema = registeredSchema.shape(objectShape);
+            registeredSchema = defineSchema(nestedType, yup.object());
         }
         metadataStorage.addSchemaMetadata({
             target: target instanceof Function ? target : target.constructor,
@@ -94,14 +89,14 @@ export function nested<T>(): PropertyDecorator {
 
 export interface IValidateArguments {
     object: object;
-    options: ValidateOptions;
-    schemaName?: string;
+    options?: ValidateOptions;
+    schemaName?: string | Function;
 }
 
 export interface IValidatePathArguments {
     object: object;
-    options: ValidateOptions;
-    schemaName?: string;
+    options?: ValidateOptions;
+    schemaName?: string | Function;
     path: string;
 }
 
@@ -153,14 +148,21 @@ export function isValidSync({
     return objectSchema.isValidSync(object, options);
 }
 
+export function cast({ schemaName, object, options }: IValidateArguments) {
+    const objectSchema = getSchema({ object, schemaName });
+    return objectSchema.cast(object, options);
+}
+
 function getSchema({ object, schemaName }) {
     if (object === null || typeof object !== 'object') {
         throw new Error('Cannot validate non object types');
     }
-    if (schemaName) {
+    if (typeof schemaName === 'string') {
         return getNamedSchema(schemaName);
     }
-    return getSchemaByType(object.constructor);
+
+    return getSchemaByType(schemaName || object.constructor);
 }
 
 export const a = yup;
+export const an = yup;

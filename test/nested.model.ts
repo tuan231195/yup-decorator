@@ -1,14 +1,14 @@
-import { is, a, nested, schema } from '@src/index';
+import { is, a, an, nested, schema } from '@src/index';
 
-@schema(a.object().required())
+@schema(an.object().required())
 export class NestedChildModel {
     @is(a.string().uppercase())
-    childString: string;
+    uppercase: string;
 }
 
 export class NestedModel {
     @is(
-        a
+        an
             .array()
             .of(a.number())
             .min(2)
