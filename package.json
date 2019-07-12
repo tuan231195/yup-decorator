@@ -1,5 +1,5 @@
 {
-    "name": "is-yup",
+    "name": "yup-decorator",
     "version": "1.0.0",
     "description": "Decorators for yup",
     "main": "dist/index.js",
