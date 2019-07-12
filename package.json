@@ -1,5 +1,5 @@
 {
-    "name": "yup-decorator",
+    "name": "is-yup",
     "version": "0.0.0-development",
     "description": "Decorators for yup",
     "main": "dist/index.js",
@@ -9,9 +9,8 @@
         "watch": "tsc -w",
         "test:coverage": "nyc mocha",
         "publish:coverage": "codecov",
-        "publish:doc": "codecov",
+        "publish:doc": "surge docs $npm_package_config_surgeDoc",
         "test": "mocha --watch --watch-extensions ts",
-        "deploy": "surge docs $npm_package_config_surgeProject",
         "lint": "tslint -p .",
         "release": "semantic-release"
     },
@@ -56,6 +55,9 @@
         "typescript": "3.5.3",
         "yup": "0.27.0"
     },
+    "files": [
+        "dist"
+    ],
     "husky": {
         "hooks": {
             "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
@@ -66,15 +68,29 @@
     "config": {
         "commitizen": {
             "path": "cz-conventional-changelog"
-        }
+        },
+        "surgeDoc": "luxuriant-sneeze.surge.sh"
     },
     "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "surgeDoc": "luxuriant-sneeze.surge.sh"
+        "registry": "https://registry.npmjs.org/"
     },
     "author": "Tuan Nguyen <vdtn359@gmail.com>",
     "license": "ISC",
     "dependencies": {
         "reflect-metadata": "0.1.13"
+    },
+    "release": {
+        "branch": "release",
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            "@semantic-release/npm",
+            ["@semantic-release/git", {
+                "assets": ["package.json", "CHANGELOG.md"],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }],
+            "@semantic-release/github"
+        ]
     }
 }
