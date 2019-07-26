@@ -18,7 +18,8 @@
     "exclude": [
         "./node_modules",
         "./dist",
-        "./test"
+        "./test",
+        "./index.d.ts"
     ],
     "typedocOptions": {
         "mode": "modules",
