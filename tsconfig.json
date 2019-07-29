@@ -5,9 +5,10 @@
         ],
         "rootDir": "./src",
         "baseUrl": "./",
-        "target": "es6",
+        "target": "es5",
         "sourceMap": true,
         "outDir": "./dist",
+        "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "declaration": true,
@@ -18,7 +19,8 @@
     "exclude": [
         "./node_modules",
         "./dist",
-        "./test"
+        "./test",
+        "./index.d.ts"
     ],
     "typedocOptions": {
         "mode": "modules",
