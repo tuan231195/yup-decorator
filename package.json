@@ -1,18 +1,19 @@
 {
     "name": "yup-decorator",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "Decorators for yup",
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
-        "doc": "typedoc --mode modules src",
+        "doc": "typedoc ./src",
         "watch": "tsc -w",
         "test:coverage": "nyc mocha",
         "publish:coverage": "codecov",
         "publish:doc": "surge docs $npm_package_config_surgeDoc",
         "test": "mocha --watch --watch-extensions ts",
         "lint": "tslint -p .",
-        "release": "semantic-release"
+        "release": "semantic-release",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -34,13 +35,13 @@
         "@types/chai": "4.1.7",
         "@types/mocha": "5.2.7",
         "@types/node": "12.6.2",
-        "@types/yup": "0.26.21",
+        "@types/yup": "0.26.22",
         "chai": "4.2.0",
         "codecov": "3.5.0",
-        "commitizen": "3.1.1",
+        "commitizen": "3.1.2",
         "cz-conventional-changelog": "3.0.0",
-        "husky": "3.0.0",
-        "mocha": "6.1.4",
+        "husky": "3.0.1",
+        "mocha": "6.2.0",
         "nyc": "14.1.1",
         "prettier": "1.18.2",
         "semantic-release": "^15.13.18",
@@ -51,12 +52,13 @@
         "tslint": "5.18.0",
         "tslint-config-prettier": "1.18.0",
         "tslint-plugin-prettier": "2.0.1",
-        "typedoc": "0.14.2",
+        "typedoc": "0.15.0",
         "typescript": "3.5.3",
         "yup": "0.27.0"
     },
     "files": [
-        "dist"
+        "dist",
+        "index.d.ts"
     ],
     "husky": {
         "hooks": {
