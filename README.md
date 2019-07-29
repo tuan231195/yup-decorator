@@ -13,13 +13,13 @@ import { a, is, namedSchema, getNamedSchema } from 'yup-decorator';
 
 @namedSchema('user')
 class User {
-    constructor({ email, age }) {
-      	this.email = email;
-      	this.age = age;
-    }
+	constructor({ email, age }) {
+		this.email = email;
+		this.age = age;
+	}
 	@is(a.string().email('Not a valid email'))
 	email: string;
-	
+
 	@is(a.number().lessThan(80).moreThan(10))
 	age: number;
 }
