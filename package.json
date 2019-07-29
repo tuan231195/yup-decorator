@@ -1,18 +1,19 @@
 {
     "name": "yup-decorator",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "Decorators for yup",
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
-        "doc": "typedoc --mode modules src",
+        "doc": "typedoc ./src",
         "watch": "tsc -w",
         "test:coverage": "nyc mocha",
         "publish:coverage": "codecov",
         "publish:doc": "surge docs $npm_package_config_surgeDoc",
         "test": "mocha --watch --watch-extensions ts",
         "lint": "tslint -p .",
-        "release": "semantic-release"
+        "release": "semantic-release",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -51,12 +52,13 @@
         "tslint": "5.18.0",
         "tslint-config-prettier": "1.18.0",
         "tslint-plugin-prettier": "2.0.1",
-        "typedoc": "0.14.2",
+        "typedoc": "0.15.0",
         "typescript": "3.5.3",
         "yup": "0.27.0"
     },
     "files": [
-        "dist"
+        "dist",
+        "index.d.ts"
     ],
     "husky": {
         "hooks": {
