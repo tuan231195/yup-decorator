@@ -47,7 +47,7 @@ export function namedSchema(
  * @param objectSchema The initial schema
  */
 export function schema(
-    objectSchema: ObjectSchema = yup.object()
+    objectSchema: ObjectSchema<object | null> = yup.object().nullable(true)
 ): ClassDecorator {
     return target => {
         defineSchema(target, objectSchema);
@@ -85,12 +85,15 @@ export function nested(): PropertyDecorator {
                 return;
             }
             // if the schema was not registered via @schema, build one for it automatically
-            registeredSchema = defineSchema(nestedType, yup.object());
+            registeredSchema = defineSchema(
+                nestedType,
+                yup.object().nullable(true)
+            );
         }
         metadataStorage.addSchemaMetadata({
             target: target instanceof Function ? target : target.constructor,
             property,
-            schema: registeredSchema,
+            schema: registeredSchema.clone().nullable(true),
         });
     };
 }
