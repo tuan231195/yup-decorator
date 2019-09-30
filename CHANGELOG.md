@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/vdtn359/yup-decorator/compare/v2.0.0...v2.1.0) (2019-09-30)
+
+
+### Features
+
+* **schema:** make schema nullable by default ([c1c715d](https://github.com/vdtn359/yup-decorator/commit/c1c715d))
+
 # [2.0.0](https://github.com/vdtn359/yup-decorator/compare/v1.0.1...v2.0.0) (2019-07-26)
 
 
