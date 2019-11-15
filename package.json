@@ -34,7 +34,7 @@
         "@semantic-release/release-notes-generator": "7.2.1",
         "@types/chai": "4.1.7",
         "@types/mocha": "5.2.7",
-        "@types/node": "12.6.2",
+        "@types/node": "12.12.8",
         "@types/yup": "0.26.22",
         "chai": "4.2.0",
         "codecov": "3.5.0",
