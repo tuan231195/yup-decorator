@@ -43,7 +43,7 @@
         "husky": "3.0.1",
         "mocha": "6.2.0",
         "nyc": "14.1.1",
-        "prettier": "1.18.2",
+        "prettier": "2.0.2",
         "semantic-release": "^15.13.18",
         "source-map-support": "0.5.12",
         "surge": "0.21.3",
