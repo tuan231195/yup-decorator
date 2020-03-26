@@ -51,7 +51,7 @@
         "tsconfig-paths": "3.8.0",
         "tslint": "5.18.0",
         "tslint-config-prettier": "1.18.0",
-        "tslint-plugin-prettier": "2.0.1",
+        "tslint-plugin-prettier": "2.3.0",
         "typedoc": "0.15.0",
         "typescript": "3.5.3",
         "yup": "0.27.0"
