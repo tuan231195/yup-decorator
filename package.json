@@ -1,6 +1,6 @@
 {
     "name": "yup-decorator",
-    "version": "2.0.0",
+    "version": "2.2.0",
     "description": "Decorators for yup",
     "main": "dist/index.js",
     "scripts": {
