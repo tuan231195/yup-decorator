@@ -1,6 +1,5 @@
-[![Greenkeeper badge](https://badges.greenkeeper.io/vdtn359/yup-decorator.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/vdtn359/yup-decorator.svg?branch=master)](https://travis-ci.org/vdtn359/yup-decorator)
-[![codecov](https://codecov.io/gh/vdtn359/yup-decorator/branch/master/graph/badge.svg)](https://codecov.io/gh/vdtn359/yup-decorator)
+[![Build Status](https://travis-ci.org/tuan231195/yup-decorator.svg?branch=master)](https://travis-ci.org/tuan231195/yup-decorator)
+[![codecov](https://codecov.io/gh/tuan231195/yup-decorator/branch/master/graph/badge.svg)](https://codecov.io/gh/tuan231195/yup-decorator)
 
 ## Yup Decorators
 Added TypeScript decorators support for [yup](https://github.com/jquense/yup)
