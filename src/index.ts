@@ -77,7 +77,7 @@ export function is(schema: Schema<any>): PropertyDecorator {
 export function nestedArray(
     typeFunction: () => any,
     arraySchema: ArraySchema<any> = yup.array(),
-    elementSchema: ObjectSchema<any> = yup.object()
+    elementSchema?: ObjectSchema<any>
 ): PropertyDecorator {
     return (target: Object, property: string | symbol) => {
         const nestedType = typeFunction();
@@ -147,7 +147,10 @@ export function nested(objectSchema?: ObjectSchema<any>): PropertyDecorator {
     };
 }
 
-function getObjectSchema(type, predefinedObjectSchema = yup.object()) {
+function getObjectSchema(
+    type: any,
+    predefinedObjectSchema?: ObjectSchema<any>
+) {
     let nestedSchema: Schema<any>;
     if (predefinedObjectSchema) {
         nestedSchema = defineSchema(type, predefinedObjectSchema.clone());
