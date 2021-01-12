@@ -1,19 +1,19 @@
 {
     "name": "yup-decorator",
-    "version": "2.1.0",
+    "version": "2.0.0",
     "description": "Decorators for yup",
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
         "doc": "typedoc ./src",
         "watch": "tsc -w",
-        "test:coverage": "nyc mocha",
+        "test:coverage": "nyc mocha --config test/.mocharc.json",
         "publish:coverage": "codecov",
         "publish:doc": "surge docs $npm_package_config_surgeDoc",
-        "test": "mocha --watch --watch-extensions ts",
+        "test": "mocha --watch --config test/.mocharc.json",
         "lint": "tslint -p .",
         "release": "semantic-release",
-        "prepare": "npm run build"
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -23,7 +23,7 @@
         "yup": "^0.27.0"
     },
     "devDependencies": {
-        "@commitlint/cli": "8.1.0",
+        "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "8.0.0",
         "@istanbuljs/nyc-config-typescript": "0.1.3",
         "@semantic-release/changelog": "3.0.4",
@@ -38,15 +38,15 @@
         "@types/yup": "0.26.22",
         "chai": "4.2.0",
         "codecov": "3.5.0",
-        "commitizen": "3.1.2",
+        "commitizen": "^4.2.2",
         "cz-conventional-changelog": "3.0.0",
         "husky": "3.0.1",
-        "mocha": "6.2.0",
+        "mocha": "^8.2.1",
         "nyc": "14.1.1",
         "prettier": "1.18.2",
-        "semantic-release": "15.13.19",
+        "semantic-release": "^17.3.1",
         "source-map-support": "0.5.12",
-        "surge": "0.21.3",
+        "surge": "^0.21.7",
         "ts-node": "8.3.0",
         "tsconfig-paths": "3.8.0",
         "tslint": "5.18.0",
@@ -62,9 +62,9 @@
     ],
     "husky": {
         "hooks": {
-            "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-            "pre-push": "npm run lint && npm run test:coverage"
+            "prepare-commit-msg": "test -e .git/MERGE_HEAD  || exec < /dev/tty && git cz --hook",
+            "commit-msg": "test -e .git/MERGE_HEAD || commitlint -E HUSKY_GIT_PARAMS",
+            "pre-push": "test -e .git/MERGE_HEAD || npm run lint && npm run test:coverage"
         }
     },
     "config": {

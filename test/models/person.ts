@@ -1,19 +1,19 @@
 import { a, is, namedSchema, nested } from '@src/index';
-import { NestedModel } from './nested.model';
+import { House } from './house';
 
-@namedSchema('model')
-export class Model {
+@namedSchema('person')
+export class Person {
     @is(a.string().email('Not a valid email'))
     email: string;
 
     @is(
         a
             .number()
-            .lessThan(5)
+            .lessThan(100)
             .moreThan(0)
     )
-    num: number;
+    age: number;
 
     @nested()
-    nested: NestedModel;
+    house: House;
 }

@@ -1,4 +1,4 @@
-import { ObjectSchema, Schema, ValidateOptions } from 'yup';
+import { ArraySchema, ObjectSchema, Schema, ValidateOptions } from 'yup';
 import 'reflect-metadata';
 import * as yup from 'yup';
 import { MetadataStorage } from './metadata/metadata-storage';
@@ -47,7 +47,7 @@ export function namedSchema(
  * @param objectSchema The initial schema
  */
 export function schema(
-    objectSchema: ObjectSchema<object | null> = yup.object().nullable(true)
+    objectSchema: ObjectSchema = yup.object()
 ): ClassDecorator {
     return target => {
         defineSchema(target, objectSchema);
@@ -69,33 +69,97 @@ export function is(schema: Schema<any>): PropertyDecorator {
 }
 
 /**
- * Register an object schema to the given property
+ * Register an array property
+ * @param typeFunction: a function that returns type of the element
+ * @param arraySchema: the array schema
+ * @param elementSchema: an optional object schema
  */
-export function nested(): PropertyDecorator {
+export function nestedArray(
+    typeFunction: () => any,
+    arraySchema: ArraySchema<any> = yup.array(),
+    elementSchema: ObjectSchema<any> = yup.object()
+): PropertyDecorator {
+    return (target: Object, property: string | symbol) => {
+        const nestedType = typeFunction();
+        const nestedElementSchema: Schema<any> = getObjectSchema(
+            nestedType,
+            elementSchema
+        );
+
+        metadataStorage.addSchemaMetadata({
+            target: target instanceof Function ? target : target.constructor,
+            property,
+            schema: arraySchema.of(nestedElementSchema),
+        });
+    };
+}
+
+/**
+ * Register an object schema to the given property. Use this when the property type is unknown
+ * @param typeFunction:  a function that returns type of the element
+ * @param objectSchema: an optional object schema
+ */
+export function nestedType(
+    typeFunction: () => any,
+    objectSchema?: ObjectSchema<any>
+): PropertyDecorator {
+    return (target: Object, property: string | symbol) => {
+        const nestedType = typeFunction();
+
+        const nestedSchema = getObjectSchema(nestedType, objectSchema);
+
+        if (!nestedSchema) {
+            return;
+        }
+
+        metadataStorage.addSchemaMetadata({
+            target: target instanceof Function ? target : target.constructor,
+            property,
+            schema: nestedSchema,
+        });
+    };
+}
+
+/**
+ * Register an object schema to the given property. Use this when the property type is known and can be extracted using reflect-metadata
+ * @param objectSchema: an optional object schema
+ *
+ */
+export function nested(objectSchema?: ObjectSchema<any>): PropertyDecorator {
     return (target: Object, property: string | symbol) => {
         const nestedType = (Reflect as any).getMetadata(
             'design:type',
             target,
             property
         );
-        let registeredSchema = getSchemaByType(nestedType);
-        if (!registeredSchema) {
-            const savedSchema = metadataStorage.findSchemaMetadata(nestedType);
-            if (!savedSchema) {
-                return;
-            }
-            // if the schema was not registered via @schema, build one for it automatically
-            registeredSchema = defineSchema(
-                nestedType,
-                yup.object().nullable(true)
-            );
+
+        const nestedSchema = getObjectSchema(nestedType, objectSchema);
+
+        if (!nestedSchema) {
+            return;
         }
+
         metadataStorage.addSchemaMetadata({
             target: target instanceof Function ? target : target.constructor,
             property,
-            schema: registeredSchema.clone().nullable(true),
+            schema: nestedSchema,
         });
     };
+}
+
+function getObjectSchema(type, predefinedObjectSchema = yup.object()) {
+    let nestedSchema: Schema<any>;
+    if (predefinedObjectSchema) {
+        nestedSchema = defineSchema(type, predefinedObjectSchema.clone());
+    } else {
+        // if there is no explicit object schema specified, try getting it from the type
+        nestedSchema = getSchemaByType(type);
+        if (!nestedSchema) {
+            // if the schema was not registered via @schema, build one for it automatically
+            nestedSchema = defineSchema(type, yup.object());
+        }
+    }
+    return nestedSchema;
 }
 
 export interface IValidateArguments {
