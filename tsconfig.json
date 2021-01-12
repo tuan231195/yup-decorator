@@ -21,14 +21,5 @@
         "./dist",
         "./test",
         "./index.d.ts"
-    ],
-    "typedocOptions": {
-        "mode": "modules",
-        "out": "docs",
-        "excludePrivate": true,
-        "excludeProtected": true,
-        "excludeNotExported": true,
-        "excludeExternals": true,
-        "toc": true
-    }
+    ]
 }

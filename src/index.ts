@@ -70,9 +70,9 @@ export function is(schema: Schema<any>): PropertyDecorator {
 
 /**
  * Register an array property
- * @param typeFunction: a function that returns type of the element
- * @param arraySchema: the array schema
- * @param elementSchema: an optional object schema
+ * @param typeFunction a function that returns type of the element
+ * @param arraySchema the array schema
+ * @param elementSchema an optional object schema
  */
 export function nestedArray(
     typeFunction: () => any,
@@ -96,8 +96,8 @@ export function nestedArray(
 
 /**
  * Register an object schema to the given property. Use this when the property type is unknown
- * @param typeFunction:  a function that returns type of the element
- * @param objectSchema: an optional object schema
+ * @param typeFunction  a function that returns type of the element
+ * @param objectSchema an optional object schema
  */
 export function nestedType(
     typeFunction: () => any,
@@ -122,7 +122,7 @@ export function nestedType(
 
 /**
  * Register an object schema to the given property. Use this when the property type is known and can be extracted using reflect-metadata
- * @param objectSchema: an optional object schema
+ * @param objectSchema an optional object schema
  *
  */
 export function nested(objectSchema?: ObjectSchema<any>): PropertyDecorator {

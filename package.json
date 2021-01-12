@@ -52,8 +52,8 @@
         "tslint": "5.18.0",
         "tslint-config-prettier": "1.18.0",
         "tslint-plugin-prettier": "2.0.1",
-        "typedoc": "0.15.0",
-        "typescript": "3.5.3",
+        "typedoc": "^0.20.14",
+        "typescript": "^4.1.3",
         "yup": "0.27.0"
     },
     "files": [

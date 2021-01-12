@@ -1,0 +1,10 @@
+{
+  "out": "docs",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "toc": true
+}
